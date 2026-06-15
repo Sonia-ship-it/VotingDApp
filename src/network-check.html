@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Network Checker</title>
+</head>
+<body>
+    <h1>MetaMask Network Checker</h1>
+    <button onclick="checkNetwork()">Check Network</button>
+    <pre id="output"></pre>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
+    <script>
+        async function checkNetwork() {
+            if (typeof window.ethereum !== 'undefined') {
+                const web3 = new Web3(window.ethereum);
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                
+                const chainId = await web3.eth.getChainId();
+                const networkId = await web3.eth.net.getId();
+                
+                const output = `
+Chain ID (Hex): ${await window.ethereum.request({ method: 'eth_chainId' })}
+Chain ID (Decimal): ${chainId}
+Network ID: ${networkId}
+
+Expected Network ID for your contract: 5777
+Match: ${networkId.toString() === '5777' ? '✅ YES' : '❌ NO - This is the problem!'}
+                `;
+                
+                document.getElementById('output').textContent = output;
+            } else {
+                alert('MetaMask not found!');
+            }
+        }
+    </script>
+</body>
+</html>

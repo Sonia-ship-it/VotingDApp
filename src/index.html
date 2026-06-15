@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VoteChain - Decentralized Voting</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="8" fill="#D4A574"/>
+            <path d="M16 8L20 14H12L16 8Z" fill="#3D2817"/>
+            <rect x="12" y="16" width="8" height="8" rx="1" fill="#3D2817"/>
+          </svg>
+          <h1>VoteChain</h1>
+        </div>
+        <div class="wallet-section">
+          <div class="status-badge" id="statusBadge">
+            <div class="status-dot" id="statusDot"></div>
+            <span id="networkName">Not Connected</span>
+          </div>
+          <div class="account-display" id="accountDisplay" style="display: none;">
+            <span id="account">0x0000...0000</span>
+          </div>
+          <button id="connectBtn" class="connect-btn" onclick="connectMetaMask()">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M10 2C5.58 2 2 5.58 2 10C2 14.42 5.58 18 10 18C14.42 18 18 14.42 18 10C18 5.58 14.42 2 10 2ZM10 16C6.69 16 4 13.31 4 10C4 6.69 6.69 4 10 4C13.31 4 16 6.69 16 10C16 13.31 13.31 16 10 16Z" fill="currentColor"/>
+              <circle cx="10" cy="10" r="3" fill="currentColor"/>
+            </svg>
+            Connect Wallet
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Stats Section -->
+      <section class="stats-section" id="statsSection" style="display: none;">
+        <div class="stat-card">
+          <div class="stat-icon">👥</div>
+          <div class="stat-info">
+            <span class="stat-label">Total Candidates</span>
+            <span class="stat-value" id="totalCandidates">0</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🗳️</div>
+          <div class="stat-info">
+            <span class="stat-label">Total Votes</span>
+            <span class="stat-value" id="totalVotes">0</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">✓</div>
+          <div class="stat-info">
+            <span class="stat-label">Your Status</span>
+            <span class="stat-value" id="voteStatus">Not Voted</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Voting Section -->
+      <section class="voting-section">
+        <div class="section-header">
+          <h2>Active Candidates</h2>
+          <p class="section-subtitle">Cast your vote for your preferred candidate</p>
+        </div>
+        <div id="candidates" class="candidates-grid">
+          <!-- Candidates will be loaded here -->
+        </div>
+        <div id="loadingState" class="loading-state">
+          <div class="spinner"></div>
+          <p>Connect your wallet to view candidates</p>
+        </div>
+      </section>
+
+      <!-- Add Candidate Section -->
+      <section class="add-candidate-section" id="addCandidateSection" style="display: none;">
+        <div class="section-header">
+          <h2>Add New Candidate</h2>
+          <p class="section-subtitle">Only the contract owner can add candidates</p>
+        </div>
+        <div class="input-group">
+          <input type="text" id="candidateInput" placeholder="Enter candidate name" class="candidate-input" />
+          <button onclick="addCandidate()" class="add-btn">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M10 4V16M4 10H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            Add Candidate
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
+  <script src="app.js"></script>
+  <script>
+    window.addEventListener('load', async () => {
+      await loadABI();
+    });
+  </script>
+</body>
+</html>
